@@ -47,9 +47,11 @@ function New-TestSuite {
 		'Quiet' = $Quiet;
 	}
 
-	# PSv5.1+: Make Out-File/>/>> create UTF-8 files with BOM by default:
-	$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
-	
+	if ($PSVersionTable.PSVersion.Major -lt 6) {
+		# PSv5.1+: Make Out-File/>/>> create UTF-8 files with BOM by default:
+		$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
+	}
+
 	if (!$suite.quiet) {
 		write-host ("{0,$($suite.IdColumnWidth)} {1}" -f "TestSuite",$suite.Name) -foregroundcolor Yellow
 	}
@@ -167,7 +169,8 @@ function Test-Case {
  Write the results of the test suite to the host.
   
 .DESCRIPTION
- Calculate and write the results of the test suite to the host.
+ Calculate and write the results of the test suite to the host
+ (the information stream).
  
 .PARAMETER Suite
  The test suite to report on.
@@ -248,7 +251,7 @@ function Test-TestSuite {
 		# test the module manifest
 		$suite | test-case "module manifest" { Test-ModuleManifest "$PSScriptRoot\nl.nlsw.TestSuite.psd1" | out-null; $? } $true
 		$suite | test-case "verbose test case" { write-verbose "script that writes verbose output" 4>&1 } ([System.Management.Automation.VerboseRecord]) -verbose:$true
-		# now, test some functions of this module width itself
+		# now, test some functions of this module with itself
 		$case = $suite | test-case "`$ts = New-TestSuite" { 
 			New-TestSuite "The inner test suite" -IdColumnWidth (10+$suite.IdColumnWidth) -NameColumnWidth ($suite.NameColumnWidth-20)
 		} ([PSObject]) -passthru
