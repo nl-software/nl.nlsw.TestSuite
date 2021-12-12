@@ -19,7 +19,7 @@
  Do not write the test case result(s) to the host.
 
 .NOTES
- @date 2019-01-21
+ @date 2021-11-01
  @author Ernst van der Pols
 #>
 function New-TestSuite {
@@ -106,6 +106,9 @@ function Test-Case {
 		[Parameter(Mandatory=$false)]
 		[switch]$Quiet
 	)
+	begin {
+		$verboseOn = ($VerbosePreference -ne 'SilentlyContinue')
+	}
 	process {
 		# create a new test case
 		$test = [PSCustomObject][ordered]@{
@@ -115,7 +118,7 @@ function Test-Case {
 		$suite.case.Add($test)
 		try {
 			# execute the operation
-			$test.output = invoke-command $test.operation -verbose:$verbose
+			$test.output = invoke-command $test.operation -verbose:$verboseOn
 			# check the expected output
 			if ($test.expected -is [System.Type]) {
 				# an output object of a specific type is expected: check the type of the output
