@@ -1,0 +1,74 @@
+﻿TOPIC
+    about_nl.nlsw.TestSuite
+
+SHORT DESCRIPTION
+    Describes the nl.nlsw.TestSuite module.
+
+LONG DESCRIPTION
+    The nl.nlsw.TestSuite module provides a simple yet effective unit test
+    framework for testing PowerShell scripts and modules. This 'framework'
+    consists of just three cmdlets: New-TestSuite, Test-Case, and
+    Write-TestResult.
+    
+    Should I not use Pester, the ubiquitous test and mock framework for
+    PowerShell? Yes, you probably should. However, if you look for creating
+    a simple test suite with a minimalistic framework, this module might
+    be enough.
+
+SUPPORTED SCENARIOS
+    - Test construction and initial state of C# classes.
+    - Test property and operation interfaces of C# / PowerShell objects.
+    - Test PowerShell functions / cmdlets.
+    - Test PowerShell functions / cmdlets exception handling.
+
+
+EXAMPLE
+    The module contains a function that test the module itself, Test-TestSuite.
+    We will describe some of the key features below.
+
+    begin {
+        $suite = New-TestSuite -Name "Test of nl.nlsw.TestSuite"
+    }
+    process {
+        $suite | test-case "Simple numerical example" { 1 + 1 } 2
+        $suite | test-case "throw [System.Exception]" { throw [System.Exception] } $([System.Exception])
+        # test the module manifest
+        $suite | test-case "module manifest" { Test-ModuleManifest "$PSScriptRoot\nl.nlsw.TestSuite.psd1" | out-null; $? } $true
+        $suite | test-case "verbose test case" { write-verbose "script that writes verbose output" 4>&1 } ([System.Management.Automation.VerboseRecord]) -verbose:$true
+        # now, test some functions of this module with itself
+        $case = $suite | test-case "`$ts = New-TestSuite" { 
+            New-TestSuite "The inner test suite" -IdColumnWidth (10+$suite.IdColumnWidth) -NameColumnWidth ($suite.NameColumnWidth-20)
+        } ([PSObject]) -passthru
+        # test some properties of the created object in the previous test case (use the "output"-property of the returned test-case-object)
+        $suite | test-case "`$ts.Name" { $case.output.Name } "The inner test suite"
+        $suite | test-case "`$ts.IdColumnWidth" { $case.output.IdColumnWidth } (10+$suite.IdColumnWidth)
+        $suite | test-case "`$ts.case.Count -eq 0" { $case.output.Case.Count } 0
+        # now, something rather complex: test the execution of a test case on the inner test suite
+        $oktest = $suite | test-case "run test case 0" { $case.output | test-case "Simple numerical example" { 1+1 } 2 -passthru } ([PSObject]) -passthru
+        $suite | test-case "`$ts.case[0].result is OK" { $oktest.output.result } "OK"
+        $suite | test-case "run (failing) test case 1" { $case.output | test-case "Faulty numerical example" { 1+1 } 3 -passthru } ([PSObject])
+        $suite | test-case "`$ts.case[1].result is FAILED" { $case.output.case[1].result } "FAILED"
+        $suite | test-case "`$ts.case.Count -eq 2" { $case.output.Case.Count } 2
+        $suite | test-case "`$ts.case.Errors -eq 1" { $case.output.Errors } 1
+        $tr = $suite | test-case "Write-TestResult" { $case.output | Write-TestResult -passthru } ([PSObject]) -passthru
+        $suite | test-case "returned suite is the suite" { $tr.output -eq $case.output } $true
+        
+    }
+    end {
+        $suite | Write-TestResult -passthru
+    }
+
+    The overall procedure of creating a unit test suite is as follows:
+    - Create a TestSuite with the New-TestSuite function. 
+    - Add one or more Test-Case objects to the suite 
+    - Write the result of the suite to the host with Write-TestResult 
+
+SEE ALSO
+    New-TestSuite
+    Test-Case
+    Write-TestResult
+    Test-TestSuite
+    Pester, the test framework for PowerShell (https://pester.dev/) 
+
+LICENSE
+    Licensed under the EUPL-1.2-or-later
