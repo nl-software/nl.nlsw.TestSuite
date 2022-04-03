@@ -1,6 +1,6 @@
-﻿#	_  _ ____ _ _ _ _    _ ____ ____    ____ ____ ____ ___ _ _ _ ____ ____ ____ 
-#	|\ | |___ | | | |    | |___ |___    [__  |  | |___  |  | | | |__| |__/ |___ 
-#	| \| |___ |_|_| |___ | |    |___    ___] |__| |     |  |_|_| |  | |  \ |___ 
+﻿#	_  _ ____ _ _ _ _    _ ____ ____    ____ ____ ____ ___ _ _ _ ____ ____ ____
+#	|\ | |___ | | | |    | |___ |___    [__  |  | |___  |  | | | |__| |__/ |___
+#	| \| |___ |_|_| |___ | |    |___    ___] |__| |     |  |_|_| |  | |  \ |___
 #
 # @file nl.nlsw.TestSuite.psd1
 #
@@ -92,26 +92,26 @@
 
 	# Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 	PrivateData = @{
-	
+
 		PSData = @{
-	
+
 			# Tags applied to this module. These help with module discovery in online galleries.
-			# Tags = @()
-	
+			Tags = @('Test','UnitTest')
+
 			# A URL to the license for this module.
-			# LicenseUri = ''
-	
+			LicenseUri = 'https://spdx.org/licenses/EUPL-1.2.html'
+
 			# A URL to the main website for this project.
-			# ProjectUri = ''
-	
+			ProjectUri = 'https://github.com/nl-software/nl.nlsw.TestSuite'
+
 			# A URL to an icon representing this module.
 			# IconUri = ''
-	
+
 			# ReleaseNotes of this module
 			# ReleaseNotes = ''
-	
+
 		} # End of PSData hashtable
-	
+
 	} # End of PrivateData hashtable
 
 	# HelpInfo URI of this module

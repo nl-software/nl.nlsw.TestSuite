@@ -69,3 +69,6 @@ SEE ALSO
     Write-TestResult
     Test-TestSuite
     Pester, the test framework for PowerShell (https://pester.dev/) 
+
+LICENSE
+    Licensed under the EUPL-1.2-or-later

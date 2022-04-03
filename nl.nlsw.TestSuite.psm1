@@ -2,7 +2,7 @@
 #	| \| |=== |/\| |___ | |--- |===   ==== [__] |---  |  |/\| |--| |--< |===
 #
 # @file nl.nlsw.TestSuite.psm1
-#
+# @copyright Ernst van der Pols, Licensed under the EUPL-1.2-or-later
 #requires -version 5.1
 
 <#
