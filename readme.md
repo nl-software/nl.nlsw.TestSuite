@@ -9,11 +9,35 @@ PowerShell? Yes, you probably should. However, if you look for creating
 a simple test suite with a minimalistic framework, this module might
 be enough.
 
+## Installation
+
+You can install the module for your own use from the [PowerShell Gallery](https://www.powershellgallery.com/packages/nl.nlsw.TestSuite/):
+
+```powershell
+Install-Module "nl.nlsw.TestSuite" -Scope CurrentUser
+```
+
+## Usage
+
+As example, you can run the included test function that tests the module itself:
+
+```powershell
+Test-TestSuite
+```
+
+## Documentation
+
+A little documentation on the module is included and available via:
+
+```powershell
+Get-Help about_nl.nlsw.TestSuite
+```
+
 ## Downloading the Source Code
 
-You can just clone the repository:
+You can clone the repository:
 
-```sh
+```powershell
 git clone https://github.com/nl-software/nl.nlsw.TestSuite.git
 ```
 
