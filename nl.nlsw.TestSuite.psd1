@@ -9,7 +9,7 @@
 	RootModule = ".\nl.nlsw.TestSuite.psm1"
 
 	# Version number of this module.
-	ModuleVersion = "1.0.0.0"
+	ModuleVersion = "1.0.1"
 
 	# Supported PSEditions
 	# CompatiblePSEditions = @()
@@ -87,7 +87,10 @@
 
 	# List of all files packaged with this module
 	FileList=@(
-		".\nl.nlsw.TestSuite.psm1"
+		".\en\about_nl.nlsw.TestSuite.help.txt",
+		".\CHANGELOG.md",
+		".\nl.nlsw.TestSuite.psm1",
+		"readme.md"
 	)
 
 	# Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
@@ -96,7 +99,7 @@
 		PSData = @{
 
 			# Tags applied to this module. These help with module discovery in online galleries.
-			Tags = @('Test','UnitTest')
+			Tags = @('Test','UnitTest','PSEdition_Desktop')
 
 			# A URL to the license for this module.
 			LicenseUri = 'https://spdx.org/licenses/EUPL-1.2.html'
